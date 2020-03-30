@@ -1,0 +1,11 @@
+book = [prologue] chapters [epilogue]
+chapters = chapter+
+chapter = title content
+title = text_phrase
+content = sentences
+sentences = sentence+
+sentence = text_phrase '.'
+text_phrase = TEXT [text_phrase]
+text_phrase = NUMBER [text_phrase]
+TEXT = [a-zA-Z0-9]+
+TEXT = [^\w]+
