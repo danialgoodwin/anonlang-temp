@@ -5,7 +5,7 @@ import logging
 
 from src import generic_lexer
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 
 ID = 'ID'

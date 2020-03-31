@@ -2,7 +2,7 @@ import logging
 
 from src.equality import Equality
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG, filename='debug.log')
 
 
 class Result(Equality):

@@ -9,6 +9,12 @@ class ArithmeticExpression(Equality):
     """
     pass
 
+    def eval(self, env):
+        return None  # Override in subclasses
+
+    def as_html(self, env):
+        return None  # Override in subclasses
+
 
 class NumberArithmeticExpression(ArithmeticExpression):
     def __init__(self, i):
@@ -65,7 +71,7 @@ class BinaryOpArithmeticExpression(ArithmeticExpression):
         return value
 
     def as_html(self, env):
-        return f'{self.left.as_html()} {self.op.as_html()} {self.right.as_html()}'
+        return f'{self.left.as_html(env)} {self.op} {self.right.as_html(env)} '
 
 
 ###################################################################################################
@@ -79,6 +85,12 @@ class BooleanExpression(Equality):
     - not myVariable
     """
     pass
+
+    def eval(self, env):
+        return None  # Override in subclasses
+
+    def as_html(self, env):
+        return None  # Override in subclasses
 
 
 class RelationalOpBooleanExpression(BooleanExpression):
@@ -106,8 +118,8 @@ class RelationalOpBooleanExpression(BooleanExpression):
             raise RuntimeError('unknown operator: ' + self.op)
         return value
 
-    def as_html(self):
-        return f'{self.left.as_html()} {self.op.as_html()} {self.right.as_html()}'
+    def as_html(self, env):
+        return f'{self.left.as_html(env)} {self.op} {self.right.as_html(env)} '
 
 
 class AndBooleanExpression(BooleanExpression):
@@ -120,9 +132,8 @@ class AndBooleanExpression(BooleanExpression):
         right_value = self.right.eval(env)
         return left_value and right_value
 
-    def as_html(self):
-        return f'{self.left.as_html()} {self.op.as_html()} {self.right.as_html()}'
-
+    def as_html(self, env):
+        return f'{self.left.as_html(env)} and {self.right.as_html(env)} '
 
 
 class OrBooleanExpression(BooleanExpression):
@@ -135,8 +146,8 @@ class OrBooleanExpression(BooleanExpression):
         right_value = self.right.eval(env)
         return left_value or right_value
 
-    def as_html(self):
-        return f'{self.left.as_html()} {self.op.as_html()} {self.right.as_html()}'
+    def as_html(self, env):
+        return f'{self.left.as_html(env)} or {self.right.as_html(env)}'
 
 
 class NotBooleanExpression(BooleanExpression):
@@ -147,8 +158,9 @@ class NotBooleanExpression(BooleanExpression):
         value = self.exp.eval(env)
         return not value
 
-    def as_html(self):
-        return 'not'
+    def as_html(self, env):
+        return 'not '
+
 
 ###################################################################################################
 
@@ -159,7 +171,7 @@ class Statement(Equality):
 
 
 class AssignStatement(Statement):
-    def __init__(self, name, aexp):
+    def __init__(self, name: str, aexp):
         self.name = name
         self.aexp = aexp
 
@@ -167,8 +179,8 @@ class AssignStatement(Statement):
         value = self.aexp.eval(env)
         env[self.name] = value
 
-    def as_html(self):
-        return f'{self.name.as_html()} = {self.aexp.as_html()}'
+    def as_html(self, env):
+        return f'{self.name} = {self.aexp.as_html(env)}'
 
 
 class CompoundStatement(Statement):
@@ -180,8 +192,8 @@ class CompoundStatement(Statement):
         self.first.eval(env)
         self.second.eval(env)
 
-    def as_html(self):
-        return f'{self.first.as_html()} {self.second.as_html()}'
+    def as_html(self, env):
+        return f'{self.first.as_html(env)};\n{self.second.as_html(env)}'
 
 
 class IfStatement(Statement):
@@ -198,10 +210,10 @@ class IfStatement(Statement):
             if self.false_stmt:
                 self.false_stmt.eval(env)
 
-    def as_html(self):
-        output = f'if {self.condition.as_html()} {self.true_stmt.as_html()}'
+    def as_html(self, env):
+        output = f'if {self.condition.as_html(env)} {self.true_stmt.as_html(env)}'
         if self.false_stmt:
-            output += f'else: {self.false_stmt.as_html()}'
+            output += f'else: {self.false_stmt.as_html(env)}'
         return
 
 
@@ -216,5 +228,8 @@ class LoopStatement(Statement):
             self.body.eval(env)
             condition_value = self.condition.eval(env)
 
-    def as_html(self):
-        return f'while ({self.condition.as_html()}) {self.body.as_html()}'
+    def as_html(self, env):
+        return f'while ({self.condition.as_html(env)}) {self.body.as_html(env)}'
+
+    def as_svelte(self, env):
+        return f'{{# while {self.condition.as_html(env)} }} {self.body.as_html(env)} {{/ end }}'

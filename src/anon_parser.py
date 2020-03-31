@@ -8,7 +8,7 @@ from src.anon_ast import *
 from src.anon_lexer import *
 from src.generic_combinators import *
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG, filename='debug.log')
 
 
 id = Tag(ID)
@@ -157,6 +157,7 @@ def stmt():
 ###################################################################################################
 
 def parser():
+    logging.debug(f'parser()')
     return Phrase(stmt_list())
 
 
