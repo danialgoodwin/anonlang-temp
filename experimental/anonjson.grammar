@@ -1,0 +1,16 @@
+json = array
+json = object
+array = '[' value [',' value]* ']'
+object = '{' key_value [',' key_value]* '}'
+key_value = TEXT ':' value
+value = object
+value = array
+value = TEXT
+value = NUMBER
+value = 'true'
+value = 'false'
+value = 'null'
+
+TEXT = '"' [^"]* '"'
+NUMBER = [-+]?[0-9]+[\.]?[0-9]*exponent?
+exponent = 'e'NUMBER

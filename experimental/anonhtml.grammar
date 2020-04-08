@@ -1,0 +1,46 @@
+;; anonlang--anonhtml-grammar
+file = statement*
+statement = comment
+statement = layout
+statement = loop_statement
+statement = if_statement
+statement = assignment
+layout = '<'ID comment* value? statement* '>'
+
+loop_statement = 'loop' loop_condition statement* 'end'
+loop_condition = if_condition
+loop_condition = loop_in
+loop_in = id_list ['in' value_list]+
+
+if_statement = 'if' if_condition statement* ['elif' if_condition statement*]* ['else' statement*]? 'end'
+if_condition = value
+if_condition = comparison
+comparison =
+
+assignment = assignment_key '=' expression
+assignment_key = ID ['(' value_list? ')']?
+assignment_key = ID ['(' function_parameters? ')']?
+expression = value
+expression = layout
+expression = loop_statement
+expression = if_statement
+
+function_parameters = ID ['=' value]? [',' function_parameters]?
+id_list = ID [',' id_list]?
+value_list = value [',' value_list]?
+comment = '<;' * ';>'
+comment = ';;' * '\n'
+value = layout
+value = BOOLEAN  ;; Should go before `value = ID`
+value = ID
+value = TEXT
+value = NUMBER
+
+BOOLEAN = 'True'
+BOOLEAN = 'False'
+ID = [a-z_]+[a-z_0-9]*
+TEXT = "'" * "'"
+TEXT = '"' * '"'
+NUMBER = [0-9]+[\.]?[0-9]*
+
+;; TODO: Add 'RESERVED' symbols

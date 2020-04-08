@@ -1,0 +1,15 @@
+;; anonlang--anonxml-grammar
+xml = element*
+element = '<'ID comment* value? attribute* element* '>'
+element = comment
+attribute = ID '=' value
+attribute = comment
+comment = '<;' * ';>'
+comment = ';;' * '\n'
+value = TEXT
+value = NUMBER
+
+ID = [a-z_]+[a-z_0-9]*
+TEXT = "'" * "'"
+TEXT = '"' * '"'
+NUMBER = [0-9]+[\.]?[0-9]*

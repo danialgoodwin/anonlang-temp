@@ -1,25 +1,5 @@
-program = expression
-expression = ID '=' value [expression]
-expression = TEXT [expression]
-expression = view [expression]
-expression = 'if' if_condition expression ['else' expression ]
-expression = 'loop' loop_condition expression
-if_condition = value
-if_condition = comparison
-loop_condition = if_condition
-loop_condition = iterable
-loop_condition = loop_in
-loop_in = ID[',' ID] [['in' ID[',' ID]]* 'in' value[',' value]]
-value = TEXT
-value = ID
-value = view
-
-view = '<' TEXT [view_attributes] '>'
-view_attributes = view_attribute_key '=' value [view_attributes]
-view_attribute_key = ID [ '(' ID [',' ID] ')' ]
-
-
 
 LIBRARY = 'fs' | 'platform' | 'print' | 'solve'
 KEYWORD = 'if' | 'loop' | 'otherwise' | 'then'
+
 
