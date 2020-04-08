@@ -1,5 +1,0 @@
-
-LIBRARY = 'fs' | 'platform' | 'print' | 'solve'
-KEYWORD = 'if' | 'loop' | 'otherwise' | 'then'
-
-

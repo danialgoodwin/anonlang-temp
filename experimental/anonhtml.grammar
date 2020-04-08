@@ -44,3 +44,7 @@ TEXT = '"' * '"'
 NUMBER = [0-9]+[\.]?[0-9]*
 
 ;; TODO: Add 'RESERVED' symbols
+;;LIBRARY = 'fs' | 'platform' | 'print' | 'solve'
+;;KEYWORD = 'if' | 'loop' | 'otherwise' | 'then'
+
+
